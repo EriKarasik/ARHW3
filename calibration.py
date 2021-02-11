@@ -56,7 +56,7 @@ for i in range(experiments):
     A1 += transpose(A).dot(A)
     A2 += transpose(A).dot(dt)
 
-kTheta = diag(divide(1, inv(A1).dot(A2)))
+kTheta2 = diag(divide(1, inv(A1).dot(A2)))
 
 W = [-440, -1370, -1635, 0, 0, 0]
 r,H = 0.1,0.1
@@ -71,7 +71,7 @@ for i in range(points):
     tUnCal[:, i] = tDes[:, i] + dt[0:3]
     tUpd[:,i] = tDes[:, i] - dt[0:3]
     jTheta = Jth(ik(tUpd[0,i], tUpd[1,i], tUpd[2,i]), theta)
-    dt = dot([jTheta, inv(kTheta), transpose(jTheta), W]) + normal(loc=0.0,scale=1e-5)
+    dt = dot([jTheta, inv(kTheta2), transpose(jTheta), W]) + normal(loc=0.0,scale=1e-5)
     tCal[:, i] = tUpd[:, i] + dt[0:3]
 
 fig = plt.figure(figsize=(9, 6))
